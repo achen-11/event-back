@@ -1,9 +1,10 @@
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
-  SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem
+  SidebarGroupLabel, SidebarMenu, SidebarMenuItem
 } from "@/components/ui/sidebar"
 
 import { NavItem } from "@/components/layout/layout"
+import { MenuButton } from "@/components/layout/menu-button"
 export function AppSidebar({ items }: { items: NavItem[] }) {
   return (
     <Sidebar title="🫎 Event Feedback">
@@ -16,12 +17,7 @@ export function AppSidebar({ items }: { items: NavItem[] }) {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.href}>
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
+                  <MenuButton item={item} />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
