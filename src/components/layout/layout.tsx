@@ -26,9 +26,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       {/* PC 端侧边栏 */}
       <SidebarProvider>
         <AppSidebar items={navItems} />
-        <main>
+        <main className="w-full flex-1">
           {/* Main */}
-          <div className="flex-1 flex flex-col min-h-screen overflow-y-hidden w-full">
+          <div className="flex-1 flex flex-col min-h-screen overflow-y-hidden w-full mb-[68px]">
             {/* <SidebarTrigger /> */}
             {/* 主内容区 */}
             {children}

@@ -3,11 +3,21 @@ export interface EventQuery {
   category?: string
 }
 
+export interface Image {
+  id: string
+  url: string
+}
+
 export interface Event {
   id: string
   title: string
-  description: string
-  category: string
+  content?: string
+  timestamp: Date
+  isImportant: boolean
+  mainImage?: string
+  tags: string[]
+  categories: Category[]
+  images: Image[]
   createdAt: Date
   updatedAt: Date
 }

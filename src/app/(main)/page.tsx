@@ -14,7 +14,6 @@ const fetchCategories = async () => {
     console.error('Failed to fetch categories:', res.status, res.statusText)
     return []
   }
-
   return res.json()
 }
 

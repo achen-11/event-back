@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
-import { formatDate } from "@/lib/utils"
 import type { EventQuery, Category } from "@/types"
 import { FilterFieldsBar } from "@/components/events/FilterFieldsBar"
 import { EventsTimeline } from "@/components/events/EventsTimeline"
@@ -10,7 +8,7 @@ import { EventsTimeline } from "@/components/events/EventsTimeline"
 
 
 export default function EventsView({ categories }: { categories: Category[] }) {
-  
+
   const [searchQuery, setSearchQuery] = useState<EventQuery>({
     keyword: '',
     category: 'all',
@@ -31,11 +29,12 @@ export default function EventsView({ categories }: { categories: Category[] }) {
           searchQuery={searchQuery} setSelectedCategory={setSelectedCategory}
           setKeyword={setKeyword}
         >
-
         </FilterFieldsBar>
       </section>
       {/* event list */}
-      <EventsTimeline searchQuery={searchQuery} />
+      <section className="mt-4">
+        <EventsTimeline searchQuery={searchQuery} />
+      </section>
     </div>
   )
 }

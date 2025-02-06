@@ -28,7 +28,7 @@ export function FilterFieldsBar({
 
   return (
     <>
-      <div className="flex items-center gap-2 w-[calc(100vw-32px)]">
+      <div className="flex items-center gap-2 ">
         {/* 分类选择器 */}
         <div className="flex items-center gap-2 flex-1 md:flex-none">
           {/* <Filter className="h-4 w-4 text-muted-foreground" /> */}
@@ -64,7 +64,7 @@ export function FilterFieldsBar({
         </div>
       </div>
       <div className={cn(
-        "transition-all duration-300 w-[calc(100vw-32px)] mt-3",
+        "transition-all duration-300 mt-3",
         showSearch ? "block" : "hidden"
       )}>
         <Input
