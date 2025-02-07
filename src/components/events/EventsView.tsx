@@ -4,6 +4,7 @@ import { useState } from "react"
 import type { EventQuery, Category } from "@/types"
 import { FilterFieldsBar } from "@/components/events/FilterFieldsBar"
 import { EventsTimeline } from "@/components/events/EventsTimeline"
+import { AddEventButton } from "@/components/FloatingBtns/AddEventBtn"
 
 
 
@@ -21,7 +22,7 @@ export default function EventsView({ categories }: { categories: Category[] }) {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 relative">
       {/* search */}
       <section className="search-bar" role="searchbar">
         <FilterFieldsBar
@@ -35,6 +36,10 @@ export default function EventsView({ categories }: { categories: Category[] }) {
       <section className="mt-4">
         <EventsTimeline searchQuery={searchQuery} />
       </section>
+      <div className="fixed bottom-[76px] md:bottom-10 right-4">
+        <AddEventButton categories={categories} />
+      </div>
     </div>
   )
 }
+

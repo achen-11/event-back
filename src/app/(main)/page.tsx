@@ -22,7 +22,7 @@ export default async function Home() {
   console.log('categories', categories)
   
   return (
-    <div>
+    <div className="md:pr-16">
       <EventsView categories={categories}></EventsView>
     </div>
   )
