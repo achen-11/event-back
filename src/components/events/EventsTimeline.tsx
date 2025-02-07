@@ -1,103 +1,20 @@
 'use client'
 
-import { EventQuery, Event } from "@/types"
-import { useEffect, useState, useMemo, useRef, useCallback } from "react"
+import { Event } from "@/types"
+import { useMemo,  } from "react"
 import { Loader2, Star } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 
-const fetchEvents = async (searchQuery: EventQuery, page: number) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL
-  try {
-    // 构建查询参数
-    const params = new URLSearchParams({
-      page: page.toString(),
-      pageSize: '5',
-      ...(searchQuery.keyword && { keyword: searchQuery.keyword }),
-      ...(searchQuery.category && { category: searchQuery.category })
-    })
-
-    const res = await fetch(`${baseUrl}/api/events?${params}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json', },
-      credentials: 'include'
-    })
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch events')
-    }
-
-    return res.json()
-  } catch (error) {
-    console.error('Error fetching events:', error)
-    return {
-      items: [],
-      total: 0,
-      hasMore: false
-    }
-  }
-}
-
-export function EventsTimeline({ searchQuery }: { searchQuery: EventQuery }) {
-  const [page, setPage] = useState(1)
-  const [loading, setLoading] = useState(false)
-  const [events, setEvents] = useState<Event[]>([])
-  const [hasMore, setHasMore] = useState(true)
-  const loaderRef = useRef<HTMLDivElement>(null)
-
-  // 加载更多数据
-  const loadMore = useCallback(async () => {
-    if (loading || !hasMore) return
-    setLoading(true)
-    try {
-      const { events: newEvents, pagination } = await fetchEvents(searchQuery, page + 1)
-      setEvents(prev => [...prev, ...newEvents])
-      setHasMore(pagination.page < pagination.totalPages)
-      setPage(prev => prev + 1)
-    } finally {
-      setLoading(false)
-    }
-  }, [loading, hasMore, searchQuery, page])
-
-  // 设置 Intersection Observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMore()
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [loadMore])
-
-  // 搜索条件改变时重置并重新加载
-  useEffect(() => {
-    const initLoad = async () => {
-      setLoading(true)
-      try {
-        const { events, pagination } = await fetchEvents(searchQuery, 1)
-        setEvents(events)
-        setHasMore(pagination.page < pagination.totalPages)
-        setPage(1)
-      } finally {
-        setLoading(false)
-      }
-    }
-    
-    setEvents([])
-    setPage(1)
-    initLoad()
-  }, [searchQuery])
-
+export function EventsTimeline({ 
+  events,
+  isLoading
+}: { 
+  events: Event[]
+  isLoading?: boolean
+}) {
   const groupedEvents = useMemo(() => {
     const groups = events.reduce((acc, event) => {
       const date = formatDate(event.timestamp as Date, "YYYY-MM-DD")
@@ -186,12 +103,11 @@ export function EventsTimeline({ searchQuery }: { searchQuery: EventQuery }) {
         ))}
       </div>
 
-      {hasMore && (
+      {isLoading && (
         <div 
-          ref={loaderRef}
           className="flex justify-center py-8"
         >
-          {loading && <Loader2 className="h-6 w-6 animate-spin" />}
+          <Loader2 className="h-6 w-6 animate-spin" />
         </div>
       )}
     </div>

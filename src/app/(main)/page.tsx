@@ -1,24 +1,15 @@
-import { headers } from 'next/headers'
+'use client'
+
+import { useQuery } from '@tanstack/react-query'
+import { fetchCategories } from '@/lib/http'
 import EventsView from "@/components/events/EventsView"
 
-const fetchCategories = async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL
-  const headersList = headers()
-  const cookie = (await headersList).get('cookie')
-
-  const res = await fetch(baseUrl + '/api/categories', {
-    headers: { Cookie: cookie || '', }, credentials: 'include',
+export default function Home() {
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories
   })
-  
-  if (!res.ok) {
-    console.error('Failed to fetch categories:', res.status, res.statusText)
-    return []
-  }
-  return res.json()
-}
 
-export default async function Home() {
-  const categories = await fetchCategories()
   console.log('categories', categories)
   
   return (

@@ -85,4 +85,40 @@ export async function fetchCategories() {
   }
 }
 
+export interface CreateCategoryInput {
+  name: string
+}
+
+export async function createCategory(data: CreateCategoryInput) {
+  try {
+    const response = await api.post('/api/categories', data)
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Failed to create categories')
+    }
+    throw error
+  }
+}
+
+// 添加获取事件的接口
+export interface FetchEventsParams {
+  page: number
+  pageSize: number
+  category?: string
+  keyword?: string
+}
+
+export async function fetchEvents(params: FetchEventsParams) {
+  try {
+    const { data } = await api.get('/api/events', { params })
+    return data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch events')
+    }
+    throw error
+  }
+}
+
 export default api

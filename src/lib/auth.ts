@@ -13,6 +13,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
+      }
+      return session;
+    }
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -43,7 +59,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error('密码错误')
         }
 
-        console.log("user", user);
         return {
           id: user.id,
           name: user.name,

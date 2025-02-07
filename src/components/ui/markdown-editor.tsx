@@ -47,7 +47,7 @@ export function MarkdownEditor({ value, onChange, className }: MarkdownEditorPro
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm max-w-none p-1 focus-visible:outline-none',
+        class: 'prose prose-sm max-w-none px-2 py-1 focus-visible:outline-none',
       }
     },
     immediatelyRender: false

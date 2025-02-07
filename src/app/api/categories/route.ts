@@ -27,3 +27,27 @@ export async function GET() {
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const session = await auth()
+    
+    if (!session?.user?.id) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+    const json = await request.json()
+    const newCategory = await prisma.category.create({
+      data: {
+        name: json.name,
+        userId: session.user.id,
+        color: '#000000',
+        icon: null
+      }
+    })
+    return NextResponse.json(newCategory)
+  } catch (error) {
+    console.error('Failed to create event:', error)
+
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

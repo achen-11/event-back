@@ -161,7 +161,10 @@ export async function POST(request: Request) {
       ...event,
       tags: JSON.parse(event.tags),
       title: body.title,
-      content: body.content
+      content: body.content,
+      categories: event.categories.map(c => ({
+        ...c.category
+      }))
     })
   } catch (error) {
     console.error('Failed to create event:', error)
