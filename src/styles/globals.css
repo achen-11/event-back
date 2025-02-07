@@ -152,3 +152,64 @@
 .prose-editor [data-node-type="numberedListItem"]::before {
   @apply text-foreground;
 }
+
+/* 更新 ProseMirror 相关样式 */
+.ProseMirror {
+  @apply min-h-[80px] outline-none text-sm leading-relaxed;
+}
+
+.ProseMirror > * + * {
+  @apply mt-2;  /* 减小块级元素之间的间距 */
+}
+
+/* 列表样式 */
+.ProseMirror ul,
+.ProseMirror ol {
+  @apply pl-6 my-0;  /* 移除列表的外边距 */
+}
+
+.ProseMirror ul li,
+.ProseMirror ol li {
+  @apply my-0 pl-1;  /* 移除列表项的上下边距 */
+}
+
+/* 列表标记样式 */
+.ProseMirror ul li::marker {
+  @apply text-muted-foreground/70;
+}
+
+.ProseMirror ol li::marker {
+  @apply text-muted-foreground/70;
+}
+
+/* 列表项内的段落样式 */
+.ProseMirror li > p {
+  @apply my-0.5;  /* 只给列表项内的段落添加最小间距 */
+}
+
+/* 列表嵌套样式 */
+.ProseMirror ul ul,
+.ProseMirror ol ol,
+.ProseMirror ul ol,
+.ProseMirror ol ul {
+  @apply my-0;  /* 确保嵌套列表也没有外边距 */
+}
+
+/* 段落样式 */
+.ProseMirror p {
+  @apply my-0;  /* 移除段落的上下边距 */
+}
+
+/* 空编辑器的占位符 */
+.ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-muted-foreground/60 text-sm;  /* 调整占位符字体大小 */
+  content: attr(data-placeholder);
+  float: left;
+  pointer-events: none;
+  height: 0;
+}
+
+/* 工具栏按钮悬停效果 */
+.ProseMirror-focused {
+  @apply outline-none;
+}

@@ -112,16 +112,19 @@ export function EventDialog({ event, open, onOpenChange, categories }: EventForm
         </DialogHeader>
         <div className="flex-1 overflow-y-auto py-4 px-1">
           <Form {...form}>
-            <form className="space-y-4 pr-2">
-              <FormField control={form.control} name="title" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>标题</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+            <form className="space-y-4 pr-2 text-sm">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>标题</FormLabel>
+                    <FormControl>
+                      <Input className="text-sm" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
               <FormField
                 control={form.control}
@@ -133,6 +136,7 @@ export function EventDialog({ event, open, onOpenChange, categories }: EventForm
                       <MarkdownEditor 
                         value={field.value || ''} 
                         onChange={(value) => field.onChange(value || '')}
+                        className="text-sm"
                       />
                     </FormControl>
                     <FormMessage />
