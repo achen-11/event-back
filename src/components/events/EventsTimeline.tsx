@@ -62,11 +62,11 @@ export function EventsTimeline({
 
               {dateEvents.map((event) => (
                 <Card key={event.id} onClick={() => openEventDialog?.(event)}>
-                  <CardContent className="p-4">
+                  <CardContent className="p-3">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-medium">{event.title}</h3>
+                          <h3 className="font-medium text-sm">{event.title}</h3>
                           {event.isImportant && (
                             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                           )}
@@ -81,6 +81,7 @@ export function EventsTimeline({
                                 borderColor: category.color,
                                 color: category.color
                               }}
+                              className="text-xs"
                             >
                               {category.name}
                             </Badge>
