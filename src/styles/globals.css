@@ -213,3 +213,11 @@
 .ProseMirror-focused {
   @apply outline-none;
 }
+
+
+/* 移动端样式 */
+@media (max-width: 768px) {
+  .recharts-pie-label-text {
+    font-size: 12px;
+  }
+}

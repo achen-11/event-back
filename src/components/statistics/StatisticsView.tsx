@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "
 import { TIME_RANGES } from "@/lib/constants"
 import { Loader2, CalendarDays, BookText, Hash, Clock } from "lucide-react"
 import { EventHeatMap } from "./EventHeatMap"
+import { CategoryPieChart } from "./CategoryPieChart"
 import { formatDate } from "@/lib/utils"
 
 
@@ -114,6 +115,16 @@ export function StatisticsView() {
               </CardHeader>
               <CardContent className="lg:p-6 p-4 !pl-0 pr-6">
                 <EventHeatMap data={statistics?.daily || []} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="category">
+            <Card>
+              <CardHeader className="lg:p-6 p-4">
+                <CardTitle>分类分布情况</CardTitle>
+              </CardHeader>
+              <CardContent className="lg:p-6 p-4">
+                <CategoryPieChart data={statistics?.categories || []} />
               </CardContent>
             </Card>
           </TabsContent>

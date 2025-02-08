@@ -81,7 +81,6 @@ export function EventHeatMap({ data }: EventHeatMapProps) {
     <div className="w-full relative" ref={containerRef}>
       <TooltipProvider delayDuration={100}>
         <CalendarHeatmap
-          className="pr-1"
           startDate={startDate}
           endDate={today}
           values={values}
