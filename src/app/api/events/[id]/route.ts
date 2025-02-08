@@ -205,9 +205,9 @@ export async function DELETE(
     if (!session?.user) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
-
+    const eventId = props.params.id
     const event = await prisma.event.findUnique({
-      where: { id: props.params.id }
+      where: { id: eventId }
     })
 
     if (!event) {
@@ -219,7 +219,7 @@ export async function DELETE(
     }
 
     await prisma.event.delete({
-      where: { id: props.params.id }
+      where: { id: eventId }
     })
 
     return new NextResponse(null, { status: 204 })

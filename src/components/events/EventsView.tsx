@@ -72,9 +72,9 @@ export default function EventsView({ categories }: { categories: Category[] }) {
   }
 
   return (
-    <div className="p-4 relative">
+    <div className="py-4 relative">
       {/* search */}
-      <section className="search-bar" role="searchbar">
+      <section className="search-bar px-4" role="searchbar">
         <FilterFieldsBar
           categories={categories}
           searchQuery={searchQuery}
@@ -83,7 +83,7 @@ export default function EventsView({ categories }: { categories: Category[] }) {
         />
       </section>
       {/* event list */}
-      <section className="mt-4">
+      <section className="pr-4 pl-2 md:pl-4 mt-4">
         <EventsTimeline
           events={allEvents}
           isLoading={isLoading || isFetchingNextPage}

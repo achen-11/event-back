@@ -68,7 +68,7 @@ export function EventsTimeline({
                         <div className="flex items-center gap-2">
                           <h3 className="font-medium">{event.title}</h3>
                           {event.isImportant && (
-                            <Star className="h-4 w-4 fill-primary text-primary" />
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                           )}
                         </div>
                         <div className="flex flex-wrap gap-1">

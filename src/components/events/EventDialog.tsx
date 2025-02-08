@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { CalendarIcon, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MarkdownEditor } from "@/components/ui/markdown-editor"
+import { ImageUpload } from "@/components/shared/ImageUpload"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -68,7 +69,7 @@ const eventSchema = z.object({
 
 type FormValues = z.infer<typeof eventSchema>
 
-export function EventDialog({ event, open, onOpenChange, categories, searchQuery}: EventFormDialogProps) {
+export function EventDialog({ event, open, onOpenChange, categories, searchQuery }: EventFormDialogProps) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
   const queryClient = useQueryClient()
 
@@ -135,27 +136,27 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
         }
 
         if (!old) {
-          return { 
-            pages: [{ 
-              events: [eventWithFullCategories], 
-              pagination: { page: 1, totalPages: 1 } 
-            }] 
+          return {
+            pages: [{
+              events: [eventWithFullCategories],
+              pagination: { page: 1, totalPages: 1 }
+            }]
           }
         }
-        
+
         // 如果是编辑现有事件
         if (event?.id) {
           return {
             ...old,
             pages: old.pages.map(page => ({
               ...page,
-              events: page.events.map(e => 
+              events: page.events.map(e =>
                 e.id === event.id ? eventWithFullCategories : e
               )
             }))
           }
         }
-        
+
         // 如果是新建事件，添加到第一页
         return {
           ...old,
@@ -168,7 +169,7 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
           ]
         }
       })
-      
+
       toast.success(event ? "事件已更新" : "事件已创建")
       onOpenChange?.(false)
       form.reset()
@@ -195,7 +196,7 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
           }))
         }
       })
-      
+
       toast.success("事件已删除")
       onOpenChange?.(false)
       setShowDeleteAlert(false)
@@ -209,8 +210,8 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="gap-0">
-          <DialogHeader className="flex flex-row items-center justify-between">
+        <DialogContent className="max-h-[100vh] flex flex-col gap-0 p-0">
+          <DialogHeader className="flex flex-row items-center justify-between p-6 pb-2">
             <div>
               <DialogTitle className="text-left">{event ? "编辑事件" : "新建事件"}</DialogTitle>
               <DialogDescription className="text-left mt-1">
@@ -228,9 +229,9 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
               </Button>
             )}
           </DialogHeader>
-          <div className="flex-1 overflow-y-auto py-4 px-1">
+          <div className="flex-1 overflow-y-auto px-6">
             <Form {...form}>
-              <form className="space-y-4 pr-2 text-sm"
+              <form className="space-y-4 text-sm py-4"
                 onSubmit={form.handleSubmit(
                   (values) => {
                     const eventData: CreateEventInput = {
@@ -310,6 +311,46 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
                 )} />
                 <FormField
                   control={form.control}
+                  name="images"
+                  render={({ field }) => {
+                    const mainImage = form.watch('mainImage')
+                    return (
+                      <FormItem>
+                        <FormLabel>图片</FormLabel>
+                        <FormControl>
+                          <ImageUpload
+                            value={field.value}
+                            onChange={(images) => {
+                              field.onChange(images)
+                              // 如果只有一张图片，自动设置为主图
+                              if (images.length === 1 && !mainImage) {
+                                form.setValue('mainImage', images[0].url)
+                              }
+                            }}
+                            onRemove={(index) => {
+                              const newImages = [...field.value]
+                              const removedImage = newImages[index]
+                              newImages.splice(index, 1)
+                              field.onChange(newImages)
+                              // 如果删除的是主图，清空主图字段
+                              if (removedImage.url === mainImage) {
+                                form.setValue('mainImage', undefined)
+                              }
+                            }}
+                            onSetMainImage={(image) => {
+                              form.setValue('mainImage', image.url)
+                              toast.success('已设置为主图')
+                            }}
+                            mainImage={mainImage ?? undefined}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )
+                  }}
+                />
+                <FormField
+                  control={form.control}
                   name="categories"
                   render={({ field }) => (
                     <CategorySelect
@@ -332,7 +373,7 @@ export function EventDialog({ event, open, onOpenChange, categories, searchQuery
               </form>
             </Form>
           </div>
-          <DialogFooter className="mt-4">
+          <DialogFooter className="flex-shrink-0 px-6 py-4 border-t">
             <Button
               type="submit"
               disabled={isPending}
