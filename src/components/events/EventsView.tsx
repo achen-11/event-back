@@ -1,20 +1,24 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import type { EventQuery, Category } from "@/types"
+import type { EventQuery, Category, Event as EventType } from "@/types"
 import { FilterFieldsBar } from "@/components/events/FilterFieldsBar"
 import { EventsTimeline } from "@/components/events/EventsTimeline"
-import { AddEventButton } from "@/components/FloatingBtns/AddEventBtn"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { fetchEvents } from "@/lib/http"
+import { EventDialog } from "@/components/events/EventDialog"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
 
 export default function EventsView({ categories }: { categories: Category[] }) {
+  const [open, setOpen] = useState(false)
+  const [activeEvent, setActiveEvent] = useState<EventType | undefined>()
   const [searchQuery, setSearchQuery] = useState<EventQuery>({
     keyword: '',
     category: 'all',
   })
 
-  const { 
+  const {
     data,
     fetchNextPage,
     hasNextPage,
@@ -62,6 +66,11 @@ export default function EventsView({ categories }: { categories: Category[] }) {
     setSearchQuery({ ...searchQuery, keyword })
   }
 
+  const openEventDialog = (event?: EventType) => {
+    setActiveEvent(event)
+    setOpen(true)
+  }
+
   return (
     <div className="p-4 relative">
       {/* search */}
@@ -75,13 +84,23 @@ export default function EventsView({ categories }: { categories: Category[] }) {
       </section>
       {/* event list */}
       <section className="mt-4">
-        <EventsTimeline 
+        <EventsTimeline
           events={allEvents}
           isLoading={isLoading || isFetchingNextPage}
+          openEventDialog={openEventDialog}
         />
       </section>
       <div className="fixed bottom-[76px] md:bottom-10 right-4">
-        <AddEventButton categories={categories} searchQuery={searchQuery}/>
+        <Button className="rounded-full p-0 w-10 h-10 md:w-12 md:h-12" onClick={() => openEventDialog()}>
+          <Plus />
+        </Button>
+        <EventDialog 
+          event={activeEvent} 
+          open={open} 
+          onOpenChange={setOpen} 
+          categories={categories} 
+          searchQuery={searchQuery} 
+        />
       </div>
     </div>
   )

@@ -31,14 +31,17 @@ export function TagInput({ value, onChange }: TagInputProps) {
           ))}
           <Input
             placeholder="输入标签后按回车"
-            className="w-[200px]"
+            className="w-[200px] text-sm"
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
+                console.log('enter tag');
+                
                 e.preventDefault()
                 const input = e.currentTarget
-                const value = input.value.trim()
-                if (value && !value.includes(value)) {
-                  onChange([...value, value])
+                const newTag = input.value.trim()
+                
+                if (newTag && !value.includes(newTag)) {
+                  onChange([...value, newTag])
                   input.value = ''
                 }
               }

@@ -1,19 +1,23 @@
 'use client'
 
 import { Event } from "@/types"
-import { useMemo,  } from "react"
+import { useMemo, } from "react"
 import { Loader2, Star } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 
-export function EventsTimeline({ 
+
+
+export function EventsTimeline({
   events,
-  isLoading
-}: { 
+  isLoading,
+  openEventDialog
+}: {
   events: Event[]
   isLoading?: boolean
+  openEventDialog?: (event: Event) => void
 }) {
   const groupedEvents = useMemo(() => {
     const groups = events.reduce((acc, event) => {
@@ -57,7 +61,7 @@ export function EventsTimeline({
               </div>
 
               {dateEvents.map((event) => (
-                <Card key={event.id}>
+                <Card key={event.id} onClick={() => openEventDialog?.(event)}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
@@ -104,7 +108,7 @@ export function EventsTimeline({
       </div>
 
       {isLoading && (
-        <div 
+        <div
           className="flex justify-center py-8"
         >
           <Loader2 className="h-6 w-6 animate-spin" />

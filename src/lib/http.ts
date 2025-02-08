@@ -72,6 +72,17 @@ export async function updateEvent(id: string, data: Partial<CreateEventInput>) {
   }
 }
 
+export async function deleteEvent(id: string) {
+  try {
+    const response = await api.delete(`/api/events/${id}`)
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Failed to delete event')
+    }
+    throw error
+  }
+}
 
 export async function fetchCategories() {
   try {

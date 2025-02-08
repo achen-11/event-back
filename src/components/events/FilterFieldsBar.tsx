@@ -72,7 +72,7 @@ export function FilterFieldsBar({
           placeholder="搜索..."
           value={searchQuery.keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          className="w-full"
+          className="w-full text-sm"
         />
       </div>
     </>
