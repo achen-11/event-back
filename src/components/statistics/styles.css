@@ -1,0 +1,64 @@
+.react-calendar-heatmap {
+  width: 100%;
+  height: auto;
+}
+
+/* 月份标签 */
+.react-calendar-heatmap .month-label {
+  font-size: 0.5rem;  /* 8px */
+  fill: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* 星期标签 */
+.react-calendar-heatmap .weekday-label {
+  font-size: 0.5rem;  /* 8px */
+  fill: var(--muted-foreground);
+}
+
+.react-calendar-heatmap rect {
+  rx: 2;
+}
+
+.react-calendar-heatmap .color-empty {
+  fill: hsl(var(--muted));  /* 更浅的灰色 */
+}
+
+.react-calendar-heatmap .color-scale-1 {
+  fill: #99d89c;  /* 浅绿色 */
+}
+
+.react-calendar-heatmap .color-scale-2 {
+  fill: #52b788;  /* 中浅绿色 */
+}
+
+.react-calendar-heatmap .color-scale-3 {
+  fill: #2d6a4f;  /* 中深绿色 */
+}
+
+.react-calendar-heatmap .color-scale-4 {
+  fill: #1b4332;  /* 深绿色 */
+}
+
+/* 移动端 tooltip 样式 */
+@media (max-width: 768px) {
+  .tooltip-content {
+    font-size: 0.75rem;  /* 12px */
+    padding: 0.5rem;
+  }
+  
+  .tooltip-content .date {
+    font-size: 0.875rem;  /* 14px */
+  }
+  text.react-calendar-heatmap-weekday-label {
+    font-size: 8px;
+  }
+}
+
+/* 桌面端样式 */
+@media (min-width: 768px) {
+  .react-calendar-heatmap .month-label,
+  .react-calendar-heatmap .weekday-label {
+    font-size: 0.75rem;  /* 12px */
+  }
+} 

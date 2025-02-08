@@ -21,10 +21,10 @@ api.interceptors.request.use(
         acc[key] = value
         return acc
       }, {} as Record<string, string>)
-      
+
       console.log('Request cookies:', cookies)
     }
-    
+
     console.log('Request:', {
       method: config.method?.toUpperCase(),
       url: config.url,
@@ -127,6 +127,26 @@ export async function fetchEvents(params: FetchEventsParams) {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(error.response?.data?.message || 'Failed to fetch events')
+    }
+    throw error
+  }
+}
+
+interface StatisticsParams {
+  timeRange?: string
+  category?: string
+}
+
+export async function fetchStatistics(params?: StatisticsParams) {
+  try {
+    const { data } = await api.get('/api/statistics', {
+      params,
+    })
+    return data
+  } catch (error) {
+    console.error('Statistics fetch error:', error)
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch statistics')
     }
     throw error
   }
