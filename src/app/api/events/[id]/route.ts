@@ -26,9 +26,9 @@ const eventUpdateSchema = z.object({
   })).optional()
 })
 
-type EventParams = {
-  id: string
-}
+// type EventParams = {
+//   id: string
+// }
 
 interface EventUpdateData {
   title?: string
@@ -51,7 +51,8 @@ interface EventUpdateData {
 
 export async function GET(
   req: Request,
-  props: { params: EventParams }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props: any
 ) {
   try {
     const session = await auth()
@@ -93,7 +94,8 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  props: { params: EventParams }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props: any
 ) {
   try {
     const session = await auth()
@@ -198,7 +200,8 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  props: { params: EventParams }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props: any
 ) {
   try {
     const session = await auth()
