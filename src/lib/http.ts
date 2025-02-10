@@ -84,13 +84,31 @@ export async function deleteEvent(id: string) {
   }
 }
 
+export interface Category {
+  id: string
+  name: string
+  color: string
+}
+
 export async function fetchCategories() {
   try {
-    const { data } = await api.get('/api/categories')
+    const { data } = await api.get<Category[]>('/api/categories')
     return data
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to fetch categories')
+      throw new Error(error.response?.data?.message || '加载分类失败')
+    }
+    throw error
+  }
+}
+
+export async function deleteCategory(id: string) {
+  try {
+    const response = await api.delete(`/api/categories/${id}`)
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || '删除分类失败')
     }
     throw error
   }
@@ -98,6 +116,7 @@ export async function fetchCategories() {
 
 export interface CreateCategoryInput {
   name: string
+  color: string
 }
 
 export async function createCategory(data: CreateCategoryInput) {
@@ -106,7 +125,19 @@ export async function createCategory(data: CreateCategoryInput) {
     return response.data
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to create categories')
+      throw new Error(error.response?.data?.message || '创建分类失败')
+    }
+    throw error
+  }
+}
+
+export async function updateCategory(id: string, data: CreateCategoryInput) {
+  try {
+    const response = await api.put(`/api/categories/${id}`, data)
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || '更新分类失败')
     }
     throw error
   }
@@ -147,6 +178,24 @@ export async function fetchStatistics(params?: StatisticsParams) {
     console.error('Statistics fetch error:', error)
     if (axios.isAxiosError(error)) {
       throw new Error(error.response?.data?.message || 'Failed to fetch statistics')
+    }
+    throw error
+  }
+}
+
+export interface UpdateProfileInput {
+  name: string
+  email: string
+  image?: string
+}
+
+export async function updateProfile(data: UpdateProfileInput) {
+  try {
+    const response = await api.put('/api/account', data)
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || '更新个人信息失败')
     }
     throw error
   }
