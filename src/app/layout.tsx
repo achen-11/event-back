@@ -6,6 +6,9 @@ import { Providers } from "@/components/providers/prodviders"
 export const metadata: Metadata = {
   title: "Event Back",
   description: "Event Back",
+  icons: {
+    icon: "/logo.svg",
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

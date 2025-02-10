@@ -26,7 +26,10 @@ export function CategorySelect({ categories, value, onChange }: CategorySelectPr
   const queryClient = useQueryClient()
 
   const { mutate: submitCategory } = useMutation({
-    mutationFn: (name: string) => createCategory({ name }),
+    mutationFn: (name: string) => createCategory({
+      name,
+      color: "#000000"
+    }),
     onSuccess: (newCategory) => {
       queryClient.setQueryData<Category[]>(['categories'], (old = []) => [...old, newCategory])
       setIsCreating(false)

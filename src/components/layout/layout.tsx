@@ -12,10 +12,10 @@ export interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { title: "事件", href: "/", icon: <Clock />, },
-  { title: "日历", href: "/calendar", icon: <Calendar />, },
-  { title: "统计", href: "/statistics", icon: <BarChart2 />, },
-  { title: "账户", href: "/account", icon: <User /> },
+  { title: "事件", href: "/", icon: <Clock className="w-4 h-4" />, },
+  { title: "日历", href: "/calendar", icon: <Calendar className="w-4 h-4" />, },
+  { title: "统计", href: "/statistics", icon: <BarChart2 className="w-4 h-4" />, },
+  { title: "账户", href: "/account", icon: <User className="w-4 h-4" /> },
 ]
 
 
